@@ -46,7 +46,7 @@ map <leader>p :NERDTreeToggle<cr>
 
 " FuzzyFinderTextMate
 let g:fuzzy_ignore = "*.log"
-let g:fuzzy_matching_limit = 200
+let g:fuzzy_matching_limit = 20
 map <leader>t :FuzzyFinderTextMate <cr>
 "Search in Opened Buffers
 map <leader>b :FuzzyFinderBuffer<CR> 
