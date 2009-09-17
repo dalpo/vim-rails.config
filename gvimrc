@@ -1,13 +1,15 @@
+set guioptions-=m
+set guioptions-=l
+set guioptions-=L
+set guioptions-=t
 set guioptions-=T
-colorscheme vividchalk
 
-"Size and Window Position
-set lines=40
-set columns=120
-:winpos 150 0 
+colorscheme evening
 
 " Load custom configuration
 let my_home = expand("$HOME/")
 if filereadable(my_home . '.gvimrc.local')
 	source ~/.gvimrc.local
 endif
+
+let mapleader = ","

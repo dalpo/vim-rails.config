@@ -5,7 +5,10 @@ set nocompatible  " We don't want vi compatibility.
  
 " Add recently accessed projects menu (project plugin)
 set viminfo^=!
- 
+
+"Show menu with possible tab competions
+set wildmenu
+
 " Ignore extension files
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp " ignore these"
 
@@ -39,11 +42,11 @@ set expandtab
 let NERDTreeShowBookmarks  = 1
 let NERDChristmasTree = 1
 let NERDTreeWinPos = "left"
-map <leader>n :NERDTreeToggle <cr>
+map <leader>p :NERDTreeToggle ":pwd"<cr>
 
 " FuzzyFinderTextMate
 let g:fuzzy_ignore = "*.log"
-let g:fuzzy_matching_limit = 70
+let g:fuzzy_matching_limit = 200
 map <leader>t :FuzzyFinderTextMate <cr>
 "Search in Opened Buffers
 map <leader>b :FuzzyFinderBuffer<CR> 
@@ -100,3 +103,30 @@ function! Cheat(command)
 	setlocal nomodifiable
 	1
 endfunction
+
+
+" CODEGRAM FORK 
+
+"Map paste from outside VIM
+nmap <C-v> "+gP<CR>
+
+"Map quick save
+nmap <C-s> :w!<CR>
+
+"Allow browser to run from vim
+command -bar -nargs=1 OpenURL :!sensible-browser <args>
+
+"Allow switching buffers without writing to disk
+set hidden
+
+" Set incremental search
+set incsearch
+
+" Set terminal title to filename
+set title
+
+" Set SMARTCASE
+set smartcase
+
+" Set ignorecase
+set ignorecase
