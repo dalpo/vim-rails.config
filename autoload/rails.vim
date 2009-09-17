@@ -1,4 +1,4 @@
-" autoload/rails.vim
+" autoload/rai/home/txus/dev/denarius/modules/gestio_administrativa_banking/app/views/accounts/show.html.haml
 " Author:       Tim Pope <vimNOSPAM@tpope.info>
 
 " Install this file as autoload/rails.vim.  This file is sourced manually by
@@ -317,20 +317,28 @@ function! s:model(...)
     return o
   elseif f =~ '\<app/models/.*_observer.rb$'
     return s:sub(f,'.*<app/models/(.*)_observer\.rb$','\1')
+  elseif f =~ '\<modules/(.*)/app/models/.*_observer.rb$'
+    return s:sub(f,'.*<modules/(.*)/app/models/(.*)_observer\.rb$','\1')
   elseif f =~ '\<app/models/.*\.rb$'
     return s:sub(f,'.*<app/models/(.*)\.rb$','\1')
+  elseif f =~ '\<modules/(.*)/app/models/.*\.rb$'
+    return s:sub(f,'.*<modules/(.*)/app/models/(.*)\.rb$','\1')
   elseif f =~ '\<test/unit/.*_observer_test\.rb$'
     return s:sub(f,'.*<test/unit/(.*)_observer_test\.rb$','\1')
   elseif f =~ '\<test/unit/.*_test\.rb$'
     return s:sub(f,'.*<test/unit/(.*)_test\.rb$','\1')
   elseif f =~ '\<spec/models/.*_spec\.rb$'
     return s:sub(f,'.*<spec/models/(.*)_spec\.rb$','\1')
+  elseif f =~ '\<modules/(.*)/spec/models/.*_spec\.rb$'
+    return s:sub(f,'.*<modules/(.*)/spec/models/(.*)_spec\.rb$','\1')
   elseif f =~ '\<\%(test\|spec\)/fixtures/.*\.\w*\~\=$'
     return rails#singularize(s:sub(f,'.*<%(test|spec)/fixtures/(.*)\.\w*\~=$','\1'))
   elseif f =~ '\<\%(test\|spec\)/exemplars/.*_exemplar\.rb$'
     return s:sub(f,'.*<%(test|spec)/exemplars/(.*)_exemplar\.rb$','\1')
   elseif f =~ '\<\%(test\|spec\)/factories/.*\.rb$'
     return s:sub(f,'.*<%(test|spec)/factories/(.{-})%(_factory)=\.rb$','\1')
+  elseif f =~ '\<modules/(.*)/\%(test\|spec\)/factories/.*\.rb$'
+    return s:sub(f,'.*<modules/(.*)/%(test|spec)/factories/(.{-})%(_factory)=\.rb$','\1')
   elseif a:0 && a:1
     return rails#singularize(s:controller())
   endif
@@ -509,7 +517,7 @@ function! s:app_calculate_file_type(path) dict
     let r = f
   elseif nr > 0 && getbufvar(nr,'rails_file_type') != ''
     return getbufvar(nr,'rails_file_type')
-  elseif f =~ '_controller\.rb$' || f =~ '\<app/controllers/.*\.rb$'
+  elseif f =~ '_controller\.rb$' || f =~ '\<app/controllers/.*\.rb$' || f =~ '\<modules/(.*)/app/controllers/.*\.rb$'
     if join(s:readfile(full_path,50),"\n") =~ '\<wsdl_service_name\>'
       let r = "controller-api"
     else
@@ -519,13 +527,13 @@ function! s:app_calculate_file_type(path) dict
     let r = "api"
   elseif f =~ '\<test/test_helper\.rb$'
     let r = "test"
-  elseif f =~ '\<spec/spec_helper\.rb$'
+  elseif f =~ '\<spec/spec_helper\.rb$' || f =~ '\<modules/(.*)/spec/spec_helper\.rb$'
     let r = "spec"
   elseif f =~ '_helper\.rb$'
     let r = "helper"
   elseif f =~ '\<app/metal/.*\.rb$'
     let r = "metal"
-  elseif f =~ '\<app/models\>'
+  elseif f =~ '\<app/models\>' || f =~ '\<modules/(.*)/app/models\>'
     let top = join(s:readfile(full_path,50),"\n")
     let class = matchstr(top,'\<Acti\w\w\u\w\+\%(::\h\w*\)\+\>')
     if class == "ActiveResource::Base"
@@ -541,41 +549,41 @@ function! s:app_calculate_file_type(path) dict
     else
       let r = "model"
     endif
-  elseif f =~ '\<app/views/layouts\>.*\.'
+  elseif f =~ '\<app/views/layouts\>.*\.' || f =~ '\<modules/(.*)/app/views/layouts\>.*\.'
     let r = "view-layout-" . e
-  elseif f =~ '\<\%(app/views\|components\)/.*/_\k\+\.\k\+\%(\.\k\+\)\=$'
+  elseif f =~ '\<\%(app/views\|components\)/.*/_\k\+\.\k\+\%(\.\k\+\)\=$' || f =~ '\<\%(modules/(.*)/app/views\|components\)/.*/_\k\+\.\k\+\%(\.\k\+\)\=$'
     let r = "view-partial-" . e
-  elseif f =~ '\<app/views\>.*\.' || f =~ '\<components/.*/.*\.'.s:viewspattern().'$'
+  elseif f =~ '\<app/views\>.*\.' || f =~ '\<components/.*/.*\.'.s:viewspattern().'$' || f =~ '\<modules/(.*)/app/views\>.*\.' 
     let r = "view-" . e
-  elseif f =~ '\<test/unit/.*_test\.rb$'
+  elseif f =~ '\<test/unit/.*_test\.rb$' || f =~ '\<modules/(.*)/test/unit/.*_test\.rb$'
     let r = "test-unit"
-  elseif f =~ '\<test/functional/.*_test\.rb$'
+  elseif f =~ '\<test/functional/.*_test\.rb$' || f =~ '\<modules/(.*)/test/functional/.*_test\.rb$'
     let r = "test-functional"
-  elseif f =~ '\<test/integration/.*_test\.rb$'
+  elseif f =~ '\<test/integration/.*_test\.rb$' || f =~ '\<modules/(.*)/test/integration/.*_test\.rb$'
     let r = "test-integration"
-  elseif f =~ '\<spec/lib/.*_spec\.rb$'
+  elseif f =~ '\<spec/lib/.*_spec\.rb$' || f =~ '\<modules/(.*)/spec/lib/.*_spec\.rb$'
     let r = 'spec-lib'
-  elseif f =~ '\<lib/.*\.rb$'
+  elseif f =~ '\<lib/.*\.rb$' || f =~ '\<modules/(.*)/lib/.*\.rb$'
     let r = 'lib'
-  elseif f =~ '\<spec/\w*s/.*_spec\.rb$'
+  elseif f =~ '\<spec/\w*s/.*_spec\.rb$' || f =~ '\<modules/(.*)/spec/\w*s/.*_spec\.rb$'
     let r = s:sub(f,'.*<spec/(\w*)s/.*','spec-\1')
   elseif f =~ '\<features/.*\.feature$'
     let r = 'cucumber-feature'
-  elseif f =~ '\<features/step_definitions/.*_steps\.rb$'
+  elseif f =~ '\<features/step_definitions/.*_steps\.rb$' || f =~ '\<modules/(.*)/features/step_definitions/.*_steps\.rb$'
     let r = 'cucumber-steps'
-  elseif f =~ '\<features/.*\.rb$'
+  elseif f =~ '\<features/.*\.rb$' || f =~ '\<modules/(.*)/features/.*\.rb$'
     let r = 'cucumber'
-  elseif f =~ '\<\%(test\|spec\)/fixtures\>'
+  elseif f =~ '\<\%(test\|spec\)/fixtures\>' || f =~ '\<modules/(.*)/\%(test\|spec\)/fixtures\>'
     if e == "yml"
       let r = "fixtures-yaml"
     else
       let r = "fixtures" . (e == "" ? "" : "-" . e)
     endif
-  elseif f =~ '\<test/.*_test\.rb'
+  elseif f =~ '\<test/.*_test\.rb' || f =~ '\<modules/(.*)/test/.*_test\.rb'
     let r = "test"
-  elseif f =~ '\<spec/.*_spec\.rb'
+  elseif f =~ '\<spec/.*_spec\.rb' || f =~ '\<modules/(.*)/spec/.*_spec\.rb'
     let r = "spec"
-  elseif f =~ '\<db/migrate\>' || f=~ '\<db/schema\.rb$'
+  elseif f =~ '\<db/migrate\>' || f=~ '\<db/schema\.rb$' || f =~ '\<modules/(.*)/db/migrate\>'
     let r = "migration"
   elseif f =~ '\<vendor/plugins/.*/recipes/.*\.rb$' || f =~ '\.rake$' || f =~ '\<\%(Rake\|Cap\)file$' || f =~ '\<config/deploy\.rb$'
     let r = "task"
@@ -583,9 +591,9 @@ function! s:app_calculate_file_type(path) dict
     let r = "log"
   elseif e == "css" || e == "js" || e == "html"
     let r = e
-  elseif f =~ '\<config/routes\>.*\.rb$'
+  elseif f =~ '\<config/routes\>.*\.rb$' || f =~ '\<modules/(.*)/config/routes\>.*\.rb$'
     let r = "config-routes"
-  elseif f =~ '\<config/'
+  elseif f =~ '\<config/' || f =~ '\<modules/(.*)/config/'
     let r = "config"
   endif
   return r
@@ -1665,7 +1673,12 @@ endfunction
 function! s:findit(pat,repl)
   let res = s:matchcursor(a:pat)
   if res != ""
-    return substitute(res,'\C'.a:pat,a:repl,'')
+    let val = substitute(res,'\C'.a:pat,a:repl,'')
+    if filereadable(val)
+      return val
+    else
+      return ""
+    endif
   else
     return ""
   endif
@@ -1697,11 +1710,19 @@ function! s:RailsFind()
   if res != ""|return res.".rb"|endif
   let res = s:findamethod('require','\1')
   if res != ""|return res.(fnamemodify(res,':e') == '' ? '.rb' : '')|endif
-  let res = s:findamethod('belongs_to\|has_one\|composed_of\|validates_associated\|scaffold','app/models/\1.rb')
-  if res != ""|return res|endif
+  let res = s:findamethod('belongs_to\|has_one\|composed_of\|validates_associated\|scaffold', 'modules/**/app/models/\1')
+  if res != ""|return res.".rb"|endif
+  let res = s:findamethod('belongs_to\|has_one\|composed_of\|validates_associated\|scaffold', 'app/models/\1')
+  if res != ""|return res.".rb"|endif
+  let res = rails#singularize(s:findamethod('has_many\|has_and_belongs_to_many','modules/**/app/models/\1'))
+  if res != ""|return res.".rb"|endif
   let res = rails#singularize(s:findamethod('has_many\|has_and_belongs_to_many','app/models/\1'))
   if res != ""|return res.".rb"|endif
+  let res = rails#singularize(s:findamethod('create_table\|change_table\|drop_table\|add_column\|rename_column\|remove_column\|add_index','modules/**/app/models/\1'))
+  if res != ""|return res.".rb"|endif
   let res = rails#singularize(s:findamethod('create_table\|change_table\|drop_table\|add_column\|rename_column\|remove_column\|add_index','app/models/\1'))
+  if res != ""|return res.".rb"|endif
+  let res = rails#singularize(s:findasymbol('through','modules/**/app/models/\1'))
   if res != ""|return res.".rb"|endif
   let res = rails#singularize(s:findasymbol('through','app/models/\1'))
   if res != ""|return res.".rb"|endif
@@ -1709,19 +1730,29 @@ function! s:RailsFind()
   if res != ""
     return RailsFilePath() =~ '\<spec/' ? 'spec/'.res : res
   endif
+  let res = s:findamethod('map\.resources','modules/**/app/controllers/\1_controller.rb')
+  if res != ""|return res|endif
   let res = s:findamethod('map\.resources','app/controllers/\1_controller.rb')
   if res != ""|return res|endif
+  let res = s:findamethod('map\.resource','modules/**/app/controllers/\1')
+  if res != ""|return rails#pluralize(res)."_controller.rb"|endif
   let res = s:findamethod('map\.resource','app/controllers/\1')
   if res != ""|return rails#pluralize(res)."_controller.rb"|endif
   let res = s:findamethod('layout','\=s:findlayout(submatch(1))')
   if res != ""|return res|endif
   let res = s:findasymbol('layout','\=s:findlayout(submatch(1))')
   if res != ""|return res|endif
+  let res = s:findamethod('helper','modules/**/app/helpers/\1_helper.rb')
+  if res != ""|return res|endif
   let res = s:findamethod('helper','app/helpers/\1_helper.rb')
+  if res != ""|return res|endif
+  let res = s:findasymbol('controller','modules/**/app/controllers/\1_controller.rb')
   if res != ""|return res|endif
   let res = s:findasymbol('controller','app/controllers/\1_controller.rb')
   if res != ""|return res|endif
   let res = s:findasymbol('action','\1')
+  if res != ""|return res|endif
+  let res = s:findasymbol('template','modules/**/app/views/\1')
   if res != ""|return res|endif
   let res = s:findasymbol('template','app/views/\1')
   if res != ""|return res|endif
@@ -1735,6 +1766,8 @@ function! s:RailsFind()
   if RailsFileType() =~ '^view\>' | let res = s:sub(res,'[^/]+$','_&') | endif
   if res != ""|return res."\n".s:findview(res)|endif
   let res = s:findamethod('redirect_to\s*(\=\s*:action\s\+=>\s*','\1')
+  if res != ""|return res|endif
+  let res = s:findfromview('stylesheet_link_tag','public/stylesheets/sass/\1.sass')
   if res != ""|return res|endif
   let res = s:findfromview('stylesheet_link_tag','public/stylesheets/\1.css')
   if res != ""|return res|endif
@@ -1750,6 +1783,7 @@ function! s:RailsFind()
   set isfname=@,48-57,/,-,_,: ",\",'
   " TODO: grab visual selection in visual mode
   let cfile = expand("<cfile>")
+  echo cfile
   let res = s:RailsIncludefind(cfile,1)
   let &isfname = isf_keep
   return res
@@ -1880,6 +1914,9 @@ function! s:RailsIncludefind(str,...)
   if str =~ '^/' && !filereadable(str)
     let str = s:sub(str,'^/','')
   endif
+  if !filereadable(str)
+    let str = 'modules/**/' . str
+  endif
   if str =~# '^lib/' && !filereadable(str)
     let str = s:sub(str,'^lib/','')
   endif
@@ -1985,11 +2022,14 @@ function! s:relglob(...)
 endfunction
 
 function! s:helperList(A,L,P)
-  return s:autocamelize(rails#app().relglob("app/helpers/","**/*","_helper.rb"),a:A)
+  val = s:autocamelize(rails#app().relglob("app/helpers/","**/*","_helper.rb"),a:A)
+  val += s:autocamelize(rails#app().relglob("modules/**/app/helpers/","**/*","_helper.rb"),a:A)
+  return val
 endfunction
 
 function! s:controllerList(A,L,P)
   let con = rails#app().relglob("app/controllers/","**/*",".rb")
+  let con += rails#app().relglob("modules/**/app/controllers/","**/*",".rb")
   call map(con,'s:sub(v:val,"_controller$","")')
   return s:autocamelize(con,a:A)
 endfunction
@@ -1997,16 +2037,20 @@ endfunction
 function! s:viewList(A,L,P)
   let c = s:controller(1)
   let top = rails#app().relglob("app/views/",s:fuzzyglob(a:A))
+  let top += rails#app().relglob("modules/**/app/controllers/","**/*",".rb")
   call filter(top,'v:val !~# "\\~$"')
   if c != '' && a:A !~ '/'
     let local = rails#app().relglob("app/views/".c."/","*.*[^~]")
+    let local += rails#app().relglob("app/views/".c."/","*.*[^~]")
     return s:completion_filter(local+top,a:A)
   endif
   return s:completion_filter(top,a:A)
 endfunction
 
 function! s:layoutList(A,L,P)
-  return s:completion_filter(rails#app().relglob("app/views/layouts/","*"),a:A)
+  val = s:completion_filter(rails#app().relglob("app/views/layouts/","*"),a:A) 
+  val += s:completion_filter(rails#app().relglob("modules/**/app/views/layouts/","*"),a:A) 
+  return val
 endfunction
 
 function! s:stylesheetList(A,L,P)
@@ -2023,12 +2067,15 @@ endfunction
 
 function! s:modelList(A,L,P)
   let models = rails#app().relglob("app/models/","**/*",".rb")
+  let models += rails#app().relglob("modules/**/app/models/","**/*",".rb")
   call filter(models,'v:val !~# "_observer$"')
   return s:autocamelize(models,a:A)
 endfunction
 
 function! s:observerList(A,L,P)
-  return s:autocamelize(rails#app().relglob("app/models/","**/*","_observer.rb"),a:A)
+  val = s:autocamelize(rails#app().relglob("app/models/","**/*","_observer.rb"),a:A)
+  val += s:autocamelize(rails#app().relglob("modules/**/app/models/","**/*","_observer.rb"),a:A)
+  return val
 endfunction
 
 function! s:fixturesList(A,L,P)
@@ -2038,25 +2085,31 @@ endfunction
 function! s:migrationList(A,L,P)
   if a:A =~ '^\d'
     let migrations = rails#app().relglob("db/migrate/",a:A."[0-9_]*",".rb")
+    let migrations += rails#app().relglob("modules/**/db/migrate/",a:A."[0-9_]*",".rb")
     return map(migrations,'matchstr(v:val,"^[0-9]*")')
   else
     let migrations = rails#app().relglob("db/migrate/","[0-9]*[0-9]_*",".rb")
+    let migrations += rails#app().relglob("modules/**/db/migrate/","[0-9]*[0-9]_*",".rb")
     call map(migrations,'s:sub(v:val,"^[0-9]*_","")')
     return s:autocamelize(migrations,a:A)
   endif
 endfunction
 
 function! s:apiList(A,L,P)
-  return s:autocamelize(rails#app().relglob("app/apis/","**/*","_api.rb"),a:A)
+  val = s:autocamelize(rails#app().relglob("app/apis/","**/*","_api.rb"),a:A)
+  val += s:autocamelize(rails#app().relglob("modules/**/app/apis/","**/*","_api.rb"),a:A)
+  return val
 endfunction
 
 function! s:unittestList(A,L,P)
   let found = []
   if rails#app().has('test')
     let found += rails#app().relglob("test/unit/","**/*","_test.rb")
+    let found += rails#app().relglob("modules/**/test/unit/","**/*","_test.rb")
   endif
   if rails#app().has('spec')
     let found += rails#app().relglob("spec/models/","**/*","_spec.rb")
+    let found += rails#app().relglob("modules/**/spec/models/","**/*","_spec.rb")
   endif
   return s:autocamelize(found,a:A)
 endfunction
@@ -2076,15 +2129,19 @@ function! s:integrationtestList(A,L,P)
   let found = []
   if rails#app().has('test')
     let found += s:autocamelize(rails#app().relglob("test/integration/","**/*","_test.rb"),a:A)
+    let found += s:autocamelize(rails#app().relglob("modules/**/test/integration/","**/*","_test.rb"),a:A)
   endif
   if rails#app().has('cucumber')
     let found += s:completion_filter(rails#app().relglob("features/","**/*",".feature"),a:A)
+    let found += s:completion_filter(rails#app().relglob("modules/**features/","**/*",".feature"),a:A)
   endif
   return found
 endfunction
 
 function! s:specList(A,L,P)
-  return s:completion_filter(rails#app().relglob("spec/","**/*","_spec.rb"),a:A)
+  val = s:completion_filter(rails#app().relglob("spec/","**/*","_spec.rb"),a:A)
+  val += s:completion_filter(rails#app().relglob("modules/**/spec/","**/*","_spec.rb"),a:A)
+  return val
 endfunction
 
 function! s:pluginList(A,L,P)
@@ -2219,6 +2276,9 @@ function! s:EditSimpleRb(bang,cmd,name,target,prefix,suffix,...)
     let f .= a:suffix.jump
   endif
   let f = s:gsub(a:prefix,'\n',f.'\n').f
+  if !filereadable(f)
+    let f = 'modules/**/'.f
+  endif
   return s:findedit(cmd,f)
 endfunction
 
