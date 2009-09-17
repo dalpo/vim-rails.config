@@ -2,6 +2,7 @@
 let mapleader = ","
 filetype on  " Automatically detect file types.
 set nocompatible  " We don't want vi compatibility.
+set nowrap
  
 " Add recently accessed projects menu (project plugin)
 set viminfo^=!
