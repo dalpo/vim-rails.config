@@ -46,7 +46,19 @@ let NERDTreeWinPos = "left"
 map <leader>p :NERDTreeToggle<cr>
 
 " FuzzyFinderTextMate
-let g:fuzzy_ignore = "*.log *.png *.jpg *.gif *.zip *.rar *.gz *.tar *.in *.swp *.am *.svg"
+let g:fuzzy_ignore = "*.log"
+let g:fuzzy_ignore = "*.png"
+let g:fuzzy_ignore = "*.jpg"
+let g:fuzzy_ignore = "*.gif"
+let g:fuzzy_ignore = "*.zip"
+let g:fuzzy_ignore = "*.rar"
+let g:fuzzy_ignore = "*.gz"
+let g:fuzzy_ignore = "*.tar"
+let g:fuzzy_ignore = "*.in"
+let g:fuzzy_ignore = "*.swp"
+let g:fuzzy_ignore = "*.am"
+let g:fuzzy_ignore = "*.svg"
+
 let g:fuzzy_matching_limit = 20
 map <leader>t :FuzzyFinderTextMate <cr>
 "Search in Opened Buffers
