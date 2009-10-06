@@ -132,3 +132,6 @@ set smartcase
 
 " Set ignorecase
 set ignorecase
+
+set guifont=*
+set guifont=Monaco\ 10
