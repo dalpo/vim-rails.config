@@ -42,9 +42,11 @@ set expandtab
 "
 let NERDTreeShowBookmarks  = 1
 let NERDChristmasTree = 1
+let NERDTreeHijackNetrw = 1
 let NERDTreeWinPos = "left"
 map <leader>p :NERDTreeToggle<cr>
 
+map <leader>][ :NERDTreeToggle<cr>
 " FuzzyFinderTextMate
 let g:fuzzy_ignore = "*.log,*.png,*.jpg,*.gif,*.svg,*.jpeg,*.icon,*.in,*.am,*.swp,*.git,*.svn"                                                                                      
 
