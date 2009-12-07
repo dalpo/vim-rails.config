@@ -81,6 +81,9 @@ let g:AutoCloseProtectedRegions = ["Character"]
 
 "Turning off xargs for grep.vim, freaks out on the mac
 let Grep_Find_Use_Xargs = 0
+let Grep_Skip_Files = '*.log *~ tags'
+let Grep_Skip_Dirs = '.git'
+
 
 "Load custom configuration
 let my_home = expand("$HOME/")
