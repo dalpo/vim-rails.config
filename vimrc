@@ -79,6 +79,8 @@ set hlsearch
 let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}'} 
 let g:AutoCloseProtectedRegions = ["Character"] 
 
+"Turning off xargs for grep.vim, freaks out on the mac
+let Grep_Find_Use_Xargs = 0
 
 "Load custom configuration
 let my_home = expand("$HOME/")
