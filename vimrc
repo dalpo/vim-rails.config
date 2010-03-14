@@ -25,6 +25,7 @@ colorscheme vividchalk
 " alt+n or alt+p to navigate between entries in QuickFix
 map <silent> <m-p> :cp <cr>
 map <silent> <m-n> :cn <cr>
+map <leader>q :botright cwindow<cr>
  
 " Change which file opens after executing :Rails command
 let g:rails_default_file='config/database.yml'
@@ -142,3 +143,9 @@ set ignorecase
 
 set guifont=*
 set guifont=Monaco\ 10
+
+" Interactive Mediums specific commands
+autocmd User Rails Rnavcommand jobs app/jobs
+autocmd User Rails Rnavcommand daemons app/daemons
+autocmd User Rails Rnavcommand csupport app/controller_support
+
