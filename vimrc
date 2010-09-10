@@ -25,7 +25,6 @@ colorscheme vividchalk
 " alt+n or alt+p to navigate between entries in QuickFix
 map <silent> <m-p> :cp <cr>
 map <silent> <m-n> :cn <cr>
-map <leader>q :botright cwindow<cr>
  
 " Change which file opens after executing :Rails command
 let g:rails_default_file='config/database.yml'
