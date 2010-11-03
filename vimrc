@@ -123,7 +123,7 @@ nmap <C-v> "+gP<CR>
 nmap <C-s> :w!<CR>
 
 "Allow browser to run from vim
-command -bar -nargs=1 OpenURL :!sensible-browser <args>
+"command -bar -nargs=1 OpenURL :!sensible-browser <args>
 
 "Allow switching buffers without writing to disk
 set hidden
@@ -140,8 +140,7 @@ set smartcase
 " Set ignorecase
 set ignorecase
 
-set guifont=*
-set guifont=Monaco\ 10
+set guifont=DejaVu\ Sans\ Mono:h12
 
 " Interactive Mediums specific commands
 autocmd User Rails Rnavcommand jobs app/jobs
