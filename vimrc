@@ -19,7 +19,6 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
-" Tema
 colorscheme vividchalk
  
 " alt+n or alt+p to navigate between entries in QuickFix
@@ -139,6 +138,10 @@ set smartcase
 
 " Set ignorecase
 set ignorecase
+
+" Turn on the Vim 7.3 colorcolumn
+set colorcolumn=120
+hi ColorColumn guibg=#2d2d2d 
 
 set guifont=DejaVu\ Sans\ Mono:h12
 
