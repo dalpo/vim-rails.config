@@ -139,11 +139,8 @@ set smartcase
 " Set ignorecase
 set ignorecase
 
-" Turn on the Vim 7.3 colorcolumn
-set colorcolumn=120
-hi ColorColumn guibg=#2d2d2d 
-
 set guifont=DejaVu\ Sans\ Mono:h12
+set vb t_vb=""
 
 " Interactive Mediums specific commands
 autocmd User Rails Rnavcommand jobs app/jobs
