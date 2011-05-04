@@ -139,7 +139,7 @@ set smartcase
 " Set ignorecase
 set ignorecase
 
-set guifont=DejaVu\ Sans\ Mono:h11
+set guifont=Bitstream\ Vera\ Sans\ Mono:h10
 set vb t_vb=""
 
 " Interactive Mediums specific commands
