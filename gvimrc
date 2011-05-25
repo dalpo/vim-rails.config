@@ -7,6 +7,7 @@ set guioptions-=T
 let g:solarized_visibility = 'low'
 set background=dark
 colorscheme solarized
+call togglebg#map("<F6>")
 
 " Load custom configuration
 let my_home = expand("$HOME/")
