@@ -1,5 +1,5 @@
 " set guifont=Bitstream\ Vera\ Sans\ Mono:h11
-set guifont=Inconsolata:h14
+set guifont=DejaVu\ Sans\ Mono:h12
 
 set guioptions-=m
 set guioptions-=l
