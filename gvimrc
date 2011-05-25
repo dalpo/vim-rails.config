@@ -1,3 +1,6 @@
+" set guifont=Bitstream\ Vera\ Sans\ Mono:h11
+set guifont=Inconsolata:h14
+
 set guioptions-=m
 set guioptions-=l
 set guioptions-=L

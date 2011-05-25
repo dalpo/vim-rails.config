@@ -139,8 +139,9 @@ set smartcase
 " Set ignorecase
 set ignorecase
 
-set guifont=Bitstream\ Vera\ Sans\ Mono:h11
-set vb t_vb=""
+set noerrorbells
+set visualbell
+set t_vb=
 
 " Interactive Mediums specific commands
 autocmd User Rails Rnavcommand jobs app/jobs
